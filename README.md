@@ -8,6 +8,11 @@
 <h3 align="center">Example code</h3>
 
 ```PHP
+// USES
+use Refaltor\CustomItemAPI\Items\ArmorItem;
+use Refaltor\CustomItemAPI\Items\BasicItem;
+
+// EXAMPLE
  $item = new ArmorItem(new ItemIdentifier(<id(int)>, <meta(int)>), '<name>', new ArmorTypeInfo(<defense(int)>, <durability(int)>, <slot(0, 1, 2, 3)>), 'texture_path');
  $item->addToServer();
 ```
