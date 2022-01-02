@@ -1,6 +1,6 @@
 <h1 align="center">CustomItemAPI | 4.0.0</h1>
 <p align="center">
-  <img width="250" height="250" src="https://github.com/Refaltor77/ProtectYourSpawn/blob/main/logo.png">
+  <img width="250" height="250" src="https://github.com/Refaltor77/CustomItemAPI/blob/main/logo.png">
 </p>
 
 <h2 align="center">Simple API to add items easily to your server ! 🎊</h2>
