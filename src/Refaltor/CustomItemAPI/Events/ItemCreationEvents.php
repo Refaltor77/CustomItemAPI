@@ -22,7 +22,7 @@ class ItemCreationEvents extends Event implements Cancellable
     public function __construct(StructureItem|ArmorItem $item)
     {
         $this->item = $item;
-        $this->itemRuntimeId = $item->getId() + ($item->getId() > 0 ? 5000 : -5000);
+        $this->itemRuntimeId = strval($item->getId() + ($item->getId() > 0 ? 5000 : -5000));
         $this->itemId = $item->getId();
         $this->itemName = $item->getName();
         $this->maxStackSize = $item->getMaxStackSize();
