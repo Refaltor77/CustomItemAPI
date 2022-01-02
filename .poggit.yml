@@ -1,0 +1,9 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/Refaltor77/CustomItemAPI
+build-by-default: true
+branches:
+- main
+projects:
+  CustomItemAPI:
+    path: ""
+    icon: logo.png
+...
