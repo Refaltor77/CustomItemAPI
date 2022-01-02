@@ -12,7 +12,7 @@
 use Refaltor\CustomItemAPI\Items\ArmorItem;
 use Refaltor\CustomItemAPI\Items\BasicItem;
 
-// EXAMPLE
+// EXAMPLE to be placed in onLoad()
  $item = new ArmorItem(new ItemIdentifier(<id(int)>, <meta(int)>), '<name>', new ArmorTypeInfo(<defense(int)>, <durability(int)>, <slot(0, 1, 2, 3)>), 'texture_path');
  $item->addToServer();
 ```
