@@ -3,3 +3,4 @@ version: 1.0.0
 main: Refaltor\CustomItemAPI\CustomItemMain
 author: Refaltor
 api: 4.0.0
+load: STARTUP
