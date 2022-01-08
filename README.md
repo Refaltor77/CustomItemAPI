@@ -5,14 +5,4 @@
 
 <h2 align="center">Simple API to add items easily to your server ! 🎊</h2>
 
-<h3 align="center">Example code</h3>
-
-```PHP
-// USES
-use Refaltor\CustomItemAPI\Items\ArmorItem;
-use Refaltor\CustomItemAPI\Items\BasicItem;
-
-// EXAMPLE to be placed in onLoad()
- $item = new ArmorItem(new ItemIdentifier(<id(int)>, <meta(int)>), '<name>', new ArmorTypeInfo(<defense(int)>, <durability(int)>, <slot(0, 1, 2, 3)>), 'texture_path');
- $item->addToServer();
-```
+<p>CustomItemAPI is a tool primarily for developers, although there is a configuration to create items, for developers it is possible to push the complexity of items. It is a plugin that I created with the heart and with the help of Natof ! :)</p>
