@@ -6,5 +6,5 @@
 <h2 align="center">Simple API to add items easily to your server ! 🎊</h2>
 
 <p>CustomItemAPI is a tool primarily for developers, although there is a configuration to create items, for developers it is possible to push the complexity of items. It is a plugin that I created with the heart and with the help of Natof ! :)<br>
-To find the wiki: ![CustomItemAPI Wiki](https://github.com/Refaltor77/CustomItemAPI/wiki)
+To find the wiki: (https://github.com/Refaltor77/CustomItemAPI/wiki)
 </p>
