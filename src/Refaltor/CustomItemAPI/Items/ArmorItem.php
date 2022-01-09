@@ -30,12 +30,12 @@ class ArmorItem extends Armor
         ItemIdentifier $identifier,
         string $name,
         ArmorTypeInfo $info,
+        string $texturePath = 'Unknown',
         ?callable $listenerInteract = null,
         ?callable $listenerDestroyBlock = null,
         ?callable $listenerClickAir = null,
         ?callable $listenerAttackEntity = null,
         ?callable $listenerOnBroken = null,
-        string $texturePath = 'Unknown'
     )
     {
         $this->texture_path = $texturePath;
