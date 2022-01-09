@@ -103,11 +103,11 @@ class CustomItemMain extends PluginBase
                     };
 
                     $item = match (strtolower(strval($values['tool_group']))) {
-                        'pickaxe' => new PickaxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']), $texture_path),
-                        'sword' => new SwordItem(new ItemIdentifier($id, $meta), $name, $tier, $texture_path, intval($values['attack_points'])),
+                        'pickaxe' => new PickaxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']), intval($values['max_durability']), $texture_path),
+                        'sword' => new SwordItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), intval($values['attack_points']), $texture_path),
                         'axe' => new AxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']),$texture_path),
-                        'shovel' => new ShovelItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']),$texture_path),
-                        'hoe' => new HoeItem(new ItemIdentifier($id, $meta), $name, $tier, $texture_path),
+                        'shovel' => new ShovelItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), floatval($values['mining_efficiency']),$texture_path),
+                        'hoe' => new HoeItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), $texture_path),
                     };
 
                     $item->addToServer();
