@@ -18,7 +18,7 @@ use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 class SwordItem extends Sword
 {
     private string $texture_path;
-    private int $maxStackSize;
+    private int $maxStackSize = 1;
     private int $maxDurability;
     private int $attackPoints;
 
