@@ -37,6 +37,7 @@ items:
     id: 1000
     meta: 0
     mining_efficiency: 10
+    max_durability: 500
     tool_group: pickaxe # pickaxe | shovel | sword | axe | hoe
     texture_path: blaze_rod
     attack_points: 5 # required for sword
