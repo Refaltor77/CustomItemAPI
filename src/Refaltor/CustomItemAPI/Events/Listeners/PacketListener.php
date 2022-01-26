@@ -13,6 +13,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\item\Item;
+use pocketmine\item\ItemFactory;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\LevelEventPacket;
 use pocketmine\network\mcpe\protocol\PlayerActionPacket;
@@ -161,6 +162,12 @@ class PacketListener implements Listener
     private function scheduleTask(Position $pos, Item $item, Player $player, float $breakTime) : void{
         $handler = $this->getPlugin()->getScheduler()->scheduleDelayedTask(new ClosureTask(function() use ($pos, $item, $player) : void{
             $pos->getWorld()->useBreakOn($pos, $item, $player);
+            if ($item->getDamage() + 1 >= $item->getMaxDurability()) {
+                $player->getInventory()->setItemInHand(ItemFactory::air());
+            } else {
+                $item->setDamage($item->getDamage() + 1);
+                $player->getInventory()->setItemInHand($item);
+            }
             $item->applyDamage(1);
             unset($this->handlers[$player->getName()][$this->blockHash($pos)]);
         }), (int) floor($breakTime));

@@ -156,8 +156,8 @@ class CustomItemMain extends PluginBase
                 $runtimeId = $item->getId() + ($item->getId() > 0 ? 5000 : -5000);
                 $this->coreToNetValues[$item->getId()] = $runtimeId;
                 $this->netToCoreValues[$runtimeId] = $item->getId();
-                $this->itemTypeEntries[] = new ItemTypeEntry("minecraft:" . $item->getName(), $runtimeId, true);
-                $this->packetEntries[] = new ItemComponentPacketEntry("minecraft:" . $item->getName(), new CacheableNbt($item->getComponents()));;
+                $this->itemTypeEntries[] = new ItemTypeEntry("custom:" . $item->getName(), $runtimeId, true);
+                $this->packetEntries[] = new ItemComponentPacketEntry("custom:" . $item->getName(), new CacheableNbt($item->getComponents()));;
                 $this->registered[] = $item;
                 $new = clone $item;
                 StringToItemParser::getInstance()->register($item->getName(), fn() => $new);
