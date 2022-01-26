@@ -63,12 +63,6 @@ class PlayerListener implements Listener
         ) {
             $event->getBlock()->getPosition()->getWorld()->addSound($event->getBlock()->getPosition(), new BlockBreakSound($event->getBlock()));
             $event->getBlock()->getPosition()->getWorld()->addParticle($event->getBlock()->getPosition(), new BlockBreakParticle($event->getBlock()));
-            if ($item->getDamage() + 1 >= $item->getMaxDurability()) {
-                $event->getPlayer()->getInventory()->setItemInHand(ItemFactory::air());
-            } else {
-                $item->setDamage($item->getDamage() + 1);
-                $event->getPlayer()->getInventory()->setItemInHand($item);
-            }
         }
     }
 
