@@ -16,6 +16,7 @@ use pocketmine\network\mcpe\protocol\types\CacheableNbt;
 use pocketmine\network\mcpe\protocol\types\ItemComponentPacketEntry;
 use pocketmine\network\mcpe\protocol\types\ItemTypeEntry;
 use pocketmine\plugin\PluginBase;
+use Refaltor\CustomItemAPI\Events\Listeners\ItemCreationEventExample;
 use Refaltor\CustomItemAPI\Events\Listeners\PacketListener;
 use Refaltor\CustomItemAPI\Events\Listeners\PlayerListener;
 use Refaltor\CustomItemAPI\Items\ArmorItem;
@@ -121,14 +122,14 @@ class CustomItemMain extends PluginBase
         $this->saveDefaultConfig();
         if (is_null(self::$instance)) self::$instance = $this;
         @mkdir($this->getDataFolder() . 'debugs/');
-        @mkdir($this->getDataFolder() . 'Temps/');
-        @mkdir($this->getDataFolder() . 'resourcesTemps/');
+        //@mkdir($this->getDataFolder() . 'Temps/');
+        //@mkdir($this->getDataFolder() . 'resourcesTemps/');
         $this->loadConfigurationFile();
     }
 
     protected function onEnable(): void
     {
-        foreach ([new PacketListener($this), new PlayerListener()] as $event) $this->getServer()->getPluginManager()->registerEvents($event, $this);
+        foreach ([new PacketListener($this), new PlayerListener(), new ItemCreationEventExample($this)] as $event) $this->getServer()->getPluginManager()->registerEvents($event, $this);
         $ref = new ReflectionClass(ItemTranslator::class);
         $this->coreToNetMap = $ref->getProperty("simpleCoreToNetMapping");
         $this->netToCoreMap = $ref->getProperty("simpleNetToCoreMapping");
