@@ -11,6 +11,8 @@ use pocketmine\item\ToolTier;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
+use pocketmine\world\particle\BlockBreakParticle;
+use pocketmine\world\sound\BlockBreakSound;
 use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\PickaxeComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
@@ -102,6 +104,8 @@ class PickaxeItem extends Pickaxe
 
     public function onDestroyBlock(Block $block): bool
     {
+        $block->getPosition()->getWorld()->addSound($block->getPosition(), new BlockBreakSound($block));
+        $block->getPosition()->getWorld()->addParticle($block->getPosition(), new BlockBreakParticle($block));
         if (is_callable($this->listenerDestroyBlock)) call_user_func($this->listenerDestroyBlock, $block, $this);
         return parent::onDestroyBlock($block);
     }
@@ -114,6 +118,7 @@ class PickaxeItem extends Pickaxe
 
     public function onBroken(): void
     {
+
         if (is_callable($this->listenerOnBroken)) call_user_func($this->listenerOnBroken);
         parent::onBroken();
     }

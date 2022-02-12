@@ -4,6 +4,7 @@ namespace Refaltor\CustomItemAPI;
 
 use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\ArmorTypeInfo;
+use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\ItemIdentifier;
 use pocketmine\item\StringToItemParser;
@@ -16,6 +17,7 @@ use pocketmine\network\mcpe\protocol\types\CacheableNbt;
 use pocketmine\network\mcpe\protocol\types\ItemComponentPacketEntry;
 use pocketmine\network\mcpe\protocol\types\ItemTypeEntry;
 use pocketmine\plugin\PluginBase;
+use Refaltor\CustomItemAPI\Events\Listeners\EntityListener;
 use Refaltor\CustomItemAPI\Events\Listeners\ItemCreationEventExample;
 use Refaltor\CustomItemAPI\Events\Listeners\PacketListener;
 use Refaltor\CustomItemAPI\Events\Listeners\PlayerListener;
@@ -106,13 +108,63 @@ class CustomItemMain extends PluginBase
                     $item = match (strtolower(strval($values['tool_group']))) {
                         'pickaxe' => new PickaxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']), intval($values['max_durability']), $texture_path),
                         'sword' => new SwordItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), intval($values['attack_points']), $texture_path),
-                        'axe' => new AxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']),$texture_path),
+                        'axe' => new AxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']),$values['max_durability'], $texture_path),
                         'shovel' => new ShovelItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), floatval($values['mining_efficiency']),$texture_path),
                         'hoe' => new HoeItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), $texture_path),
                     };
 
                     $item->addToServer();
                     break;
+            }
+        }
+    }
+
+    public function createSwordItem(ItemIdentifier $identifier, string $name, ToolTier $tier, int $durability, int $attackPoints, string $texturePath): SwordItem {
+        return new SwordItem($identifier, $name, $tier, $durability, $attackPoints, $texturePath);
+    }
+
+    public function createArmorItem(ItemIdentifier $identifier, string $name, ArmorTypeInfo $info, string $texture_path, int $durability): ArmorItem {
+        return new ArmorItem($identifier, $name, $info, $texture_path);
+    }
+
+    public function createFoodItem(ItemIdentifier $identifier, string $name, int $foodRestore,float $saturationRestore , string $texture_path, int $maxStackSize): FoodItem {
+        return new FoodItem($identifier, $name, $foodRestore, $saturationRestore, $texture_path, $maxStackSize);
+    }
+
+    public function createBasicItem(ItemIdentifier $identifier, string $name, int $maxStackSize, string $texture_path): BasicItem {
+        return new BasicItem($identifier, $name, $texture_path, $maxStackSize);
+    }
+
+    public function createPickaxeItem(ItemIdentifier $identifier, string $name, ToolTier $tier,  int $miningEfficiency, int $maxDurability, string $texture_path): PickaxeItem {
+        return new PickaxeItem($identifier, $name, $tier, $miningEfficiency, $maxDurability, $texture_path);
+    }
+
+    public function createAxeItem(ItemIdentifier $identifier, string $name, ToolTier $tier,  int $miningEfficiency, int $maxDurability, string $texture_path): AxeItem {
+        return new AxeItem($identifier, $name, $tier, $miningEfficiency, $maxDurability, $texture_path);
+    }
+
+    public function createShovelItem(ItemIdentifier $identifier, string $name, ToolTier $tier,  int $miningEfficiency, int $maxDurability, string $texture_path): ShovelItem {
+        return new ShovelItem($identifier, $name, $tier, $miningEfficiency, $maxDurability, $texture_path);
+    }
+
+    public function createHoeItem(ItemIdentifier $identifier, string $name, ToolTier $tier, int $maxDurability, string $texture_path): HoeItem {
+        return new HoeItem($identifier, $name, $tier, $maxDurability, $texture_path);
+    }
+
+    public function register($item) {
+        try {
+            $item->addToServer();
+        } catch (\Exception $exception) {
+            $this->getLogger()->error("[!] ". $item::class ." Is not custom item.");
+        }
+    }
+
+    public function registerAll(array $items) {
+        foreach ($items as $item) {
+            try {
+                $item->addToServer();
+            } catch (\Exception $exception) {
+                $this->getLogger()->error("[!] ". $item::class ." Is not custom item.");
             }
         }
     }
@@ -129,7 +181,7 @@ class CustomItemMain extends PluginBase
 
     protected function onEnable(): void
     {
-        foreach ([new PacketListener($this), new PlayerListener(), new ItemCreationEventExample($this)] as $event) $this->getServer()->getPluginManager()->registerEvents($event, $this);
+        foreach ([new PacketListener($this), new PlayerListener(), new ItemCreationEventExample($this), new EntityListener()] as $event) $this->getServer()->getPluginManager()->registerEvents($event, $this);
         $ref = new ReflectionClass(ItemTranslator::class);
         $this->coreToNetMap = $ref->getProperty("simpleCoreToNetMapping");
         $this->netToCoreMap = $ref->getProperty("simpleNetToCoreMapping");

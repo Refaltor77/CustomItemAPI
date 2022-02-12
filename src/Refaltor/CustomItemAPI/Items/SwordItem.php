@@ -4,6 +4,7 @@ namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
 use pocketmine\entity\Entity;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\item\ItemIdentifier;
 use pocketmine\item\ItemUseResult;
 use pocketmine\item\Sword;
@@ -11,6 +12,8 @@ use pocketmine\item\ToolTier;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
+use pocketmine\world\particle\BlockBreakParticle;
+use pocketmine\world\sound\BlockBreakSound;
 use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\SwordComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
@@ -21,12 +24,15 @@ class SwordItem extends Sword
     private int $maxStackSize = 1;
     private int $maxDurability;
     private int $attackPoints;
+    private ?int $attackCooldown = null;
 
     private $listenerInteract;
     private $listenerDestroyBlock;
     private $listenerClickAir;
     private $listenerAttackEntity;
     private $listenerOnBroken;
+
+    private ?float $knockback = null;
 
     public function __construct(
         ItemIdentifier $identifier,
@@ -78,6 +84,23 @@ class SwordItem extends Sword
         $this->listenerOnBroken = $callable;
     }
 
+    public function setKnockback(float $value): void {
+        $this->knockback = $value;
+    }
+
+    public function getKnockback(): ?float {
+        return $this->knockback;
+    }
+
+    public function setAttackCooldown(int $value): void {
+        $this->attackCooldown = $value;
+    }
+
+
+    public function getAttackCooldown(): ?int {
+        return $this->attackCooldown;
+    }
+
     public function getAttackPoints(): int
     {
         return $this->attackPoints;
@@ -107,6 +130,8 @@ class SwordItem extends Sword
 
     public function onDestroyBlock(Block $block): bool
     {
+        $block->getPosition()->getWorld()->addSound($block->getPosition(), new BlockBreakSound($block));
+        $block->getPosition()->getWorld()->addParticle($block->getPosition(), new BlockBreakParticle($block));
         if (is_callable($this->listenerDestroyBlock)) call_user_func($this->listenerDestroyBlock, $block, $this);
         return parent::onDestroyBlock($block);
     }

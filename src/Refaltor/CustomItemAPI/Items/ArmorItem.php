@@ -4,6 +4,7 @@ namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
 use pocketmine\entity\Entity;
+use pocketmine\inventory\ArmorInventory;
 use pocketmine\item\Armor;
 use pocketmine\item\ArmorTypeInfo;
 use pocketmine\item\ItemIdentifier;
@@ -30,7 +31,7 @@ class ArmorItem extends Armor
         ItemIdentifier $identifier,
         string $name,
         ArmorTypeInfo $info,
-        string $texturePath = 'Unknown',
+        string $texturePath,
         ?callable $listenerInteract = null,
         ?callable $listenerDestroyBlock = null,
         ?callable $listenerClickAir = null,
@@ -39,7 +40,7 @@ class ArmorItem extends Armor
     )
     {
         $this->texture_path = $texturePath;
-        $this->max_durability = $info->getMaxDurability();
+        $this->max_durability = $this->getMaxDurability();
         $this->listenerAttackEntity = $listenerAttackEntity;
         $this->listenerClickAir = $listenerClickAir;
         $this->listenerInteract = $listenerInteract;
@@ -139,7 +140,13 @@ class ArmorItem extends Armor
         $components->max_stack_size = $this->getMaxStackSize();
         $components->max_durability = $this->getMaxDurability();
         $components->id = $this->getId();
-        $components->armorGroup = "itemGroup.name.helmet";
+        $slot = match ($this->getArmorSlot()) {
+            ArmorInventory::SLOT_HEAD => "itemGroup.name.helmet" ,
+            ArmorInventory::SLOT_CHEST => "itemGroup.name.chestplate" ,
+            ArmorInventory::SLOT_FEET => "itemGroup.name.boots" ,
+            ArmorInventory::SLOT_LEGS => "itemGroup.name.leggings" ,
+        };
+        $components->armorGroup = $slot;
         $components->defensePoints = $this->getDefensePoints();
         return $components->serializeToNbt();
     }

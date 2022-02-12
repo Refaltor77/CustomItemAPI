@@ -51,20 +51,6 @@ class PlayerListener implements Listener
         }
     }
 
-    public function onBreakBlock(BlockBreakEvent $event): void
-    {
-        $item = $event->getItem();
-        if (
-            $item instanceof SwordItem
-            || $item instanceof PickaxeItem
-            || $item instanceof AxeItem
-            || $item instanceof ShovelItem
-            || $item instanceof HoeItem
-        ) {
-            $event->getBlock()->getPosition()->getWorld()->addSound($event->getBlock()->getPosition(), new BlockBreakSound($event->getBlock()));
-            $event->getBlock()->getPosition()->getWorld()->addParticle($event->getBlock()->getPosition(), new BlockBreakParticle($event->getBlock()));
-        }
-    }
 
     public function onConsume(PlayerItemConsumeEvent $event): void
     {

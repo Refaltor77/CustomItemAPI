@@ -4,6 +4,7 @@ namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
 use pocketmine\entity\Entity;
+use pocketmine\item\Hoe;
 use pocketmine\item\ItemIdentifier;
 use pocketmine\item\ItemUseResult;
 use pocketmine\item\Sword;
@@ -11,11 +12,13 @@ use pocketmine\item\ToolTier;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
+use pocketmine\world\particle\BlockBreakParticle;
+use pocketmine\world\sound\BlockBreakSound;
 use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\HoeComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-class HoeItem extends Sword
+class HoeItem extends Hoe
 {
     private string $texture_path;
     private int $maxStackSize = 1;
@@ -94,6 +97,8 @@ class HoeItem extends Sword
 
     public function onDestroyBlock(Block $block): bool
     {
+        $block->getPosition()->getWorld()->addSound($block->getPosition(), new BlockBreakSound($block));
+        $block->getPosition()->getWorld()->addParticle($block->getPosition(), new BlockBreakParticle($block));
         if (is_callable($this->listenerDestroyBlock)) call_user_func($this->listenerDestroyBlock, $block, $this);
         return parent::onDestroyBlock($block);
     }

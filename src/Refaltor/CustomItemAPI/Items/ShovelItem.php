@@ -6,16 +6,19 @@ use pocketmine\block\Block;
 use pocketmine\entity\Entity;
 use pocketmine\item\ItemIdentifier;
 use pocketmine\item\ItemUseResult;
+use pocketmine\item\Shovel;
 use pocketmine\item\Sword;
 use pocketmine\item\ToolTier;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\player\Player;
+use pocketmine\world\particle\BlockBreakParticle;
+use pocketmine\world\sound\BlockBreakSound;
 use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\ShovelComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-class ShovelItem extends Sword
+class ShovelItem extends Shovel
 {
     private string $texture_path;
     private int $maxStackSize = 1;
@@ -102,6 +105,8 @@ class ShovelItem extends Sword
 
     public function onDestroyBlock(Block $block): bool
     {
+        $block->getPosition()->getWorld()->addSound($block->getPosition(), new BlockBreakSound($block));
+        $block->getPosition()->getWorld()->addParticle($block->getPosition(), new BlockBreakParticle($block));
         if (is_callable($this->listenerDestroyBlock)) call_user_func($this->listenerDestroyBlock, $block, $this);
         return parent::onDestroyBlock($block);
     }
