@@ -123,7 +123,7 @@ class CustomItemMain extends PluginBase
         return new SwordItem($identifier, $name, $tier, $durability, $attackPoints, $texturePath);
     }
 
-    public function createArmorItem(ItemIdentifier $identifier, string $name, ArmorTypeInfo $info, string $texture_path, int $durability): ArmorItem {
+    public function createArmorItem(ItemIdentifier $identifier, string $name, ArmorTypeInfo $info, string $texture_path): ArmorItem {
         return new ArmorItem($identifier, $name, $info, $texture_path);
     }
 
@@ -144,7 +144,7 @@ class CustomItemMain extends PluginBase
     }
 
     public function createShovelItem(ItemIdentifier $identifier, string $name, ToolTier $tier,  int $miningEfficiency, int $maxDurability, string $texture_path): ShovelItem {
-        return new ShovelItem($identifier, $name, $tier, $miningEfficiency, $maxDurability, $texture_path);
+        return new ShovelItem($identifier, $name, $tier, $maxDurability, $miningEfficiency, $texture_path);
     }
 
     public function createHoeItem(ItemIdentifier $identifier, string $name, ToolTier $tier, int $maxDurability, string $texture_path): HoeItem {
