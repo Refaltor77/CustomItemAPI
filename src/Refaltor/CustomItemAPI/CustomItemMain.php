@@ -2,6 +2,7 @@
 
 namespace Refaltor\CustomItemAPI;
 
+use pocketmine\crafting\FurnaceRecipe;
 use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\ArmorTypeInfo;
 use pocketmine\item\Item;
