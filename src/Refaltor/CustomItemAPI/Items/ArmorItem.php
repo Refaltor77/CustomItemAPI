@@ -115,11 +115,6 @@ class ArmorItem extends Armor
         $this->texture_path = $texture_path;
     }
 
-    public function getMaxDurability(): int
-    {
-        return $this->max_durability;
-    }
-
     public function getTexturePath(): string
     {
         return $this->texture_path;
