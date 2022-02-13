@@ -10,9 +10,15 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\inventory\CreativeInventory;
 use pocketmine\item\Hoe;
+use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
+use pocketmine\network\mcpe\convert\TypeConverter;
+use pocketmine\network\mcpe\protocol\CreativeContentPacket;
+use pocketmine\network\mcpe\protocol\types\inventory\CreativeContentEntry;
 use pocketmine\player\GameMode;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\world\particle\BlockBreakParticle;
 use pocketmine\world\sound\BlockBreakSound;
 use pocketmine\world\sound\BlockPlaceSound;
@@ -32,6 +38,13 @@ class PlayerListener implements Listener
     {
         $player = $event->getPlayer();
         $packet = CustomItemMain::getInstance()->packet;
+        CustomItemMain::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($player): void {
+            $typeConverter = TypeConverter::getInstance();
+            $nextEntryId = 1;
+            $player->getNetworkSession()->sendDataPacket(CreativeContentPacket::create(array_map(function(Item $item) use($typeConverter, &$nextEntryId) : CreativeContentEntry{
+                return new CreativeContentEntry($nextEntryId++, $typeConverter->coreItemStackToNet($item));
+            }, $player->isSpectator() ? [] : CreativeInventory::getInstance()->getAll())));
+        }), 40);
         if (!is_null($packet)) $player->getNetworkSession()->sendDataPacket(CustomItemMain::getInstance()->packet);
     }
 
