@@ -40,7 +40,7 @@ class ArmorItem extends Armor
     )
     {
         $this->texture_path = $texturePath;
-        $this->max_durability = $this->getMaxDurability();
+        $this->max_durability = $info->getMaxDurability();
         $this->listenerAttackEntity = $listenerAttackEntity;
         $this->listenerClickAir = $listenerClickAir;
         $this->listenerInteract = $listenerInteract;

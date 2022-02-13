@@ -4,6 +4,7 @@ namespace Refaltor\CustomItemAPI\Events\Listeners;
 
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\command\defaults\GamemodeCommand;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -11,6 +12,7 @@ use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\item\Hoe;
 use pocketmine\item\ItemFactory;
+use pocketmine\player\GameMode;
 use pocketmine\world\particle\BlockBreakParticle;
 use pocketmine\world\sound\BlockBreakSound;
 use pocketmine\world\sound\BlockPlaceSound;

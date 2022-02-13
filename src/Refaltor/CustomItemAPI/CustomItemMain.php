@@ -32,6 +32,7 @@ use Refaltor\CustomItemAPI\Items\StructureItem;
 use Refaltor\CustomItemAPI\Items\SwordItem;
 use ReflectionClass;
 use ReflectionProperty;
+use Webmozart\PathUtil\Path;
 
 class CustomItemMain extends PluginBase
 {
@@ -195,6 +196,8 @@ class CustomItemMain extends PluginBase
         $this->itemTypeEntries = $this->itemTypeMap->getValue(GlobalItemTypeDictionary::getInstance()->getDictionary());
         $this->packetEntries = [];
         $items = $this->getItemsInCache();
+        CreativeInventory::getInstance()->clear();
+
         foreach ($items as $item) {
             if (
                 $item instanceof StructureItem
@@ -221,6 +224,16 @@ class CustomItemMain extends PluginBase
                 $this->itemTypeMap->setValue(GlobalItemTypeDictionary::getInstance()->getDictionary(), $this->itemTypeEntries);
                 $this->packet = ItemComponentPacket::create($this->packetEntries);
             }
+        }
+
+
+        $creativeItems = json_decode(file_get_contents(Path::join(\pocketmine\BEDROCK_DATA_PATH, "creativeitems.json")), true);
+        foreach($creativeItems as $data){
+            $item = Item::jsonDeserialize($data);
+            if($item->getName() === "Unknown"){
+                continue;
+            }
+            CreativeInventory::getInstance()->add($item);
         }
     }
 
