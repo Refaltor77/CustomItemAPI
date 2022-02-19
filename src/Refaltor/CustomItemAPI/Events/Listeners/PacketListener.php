@@ -80,7 +80,7 @@ class PacketListener implements Listener
 
             $actions = $packet->getBlockActions();
             if (is_null($actions)) return;
-            var_dump($actions);
+         
 
             foreach ($actions as $action) {
                 if (!$action instanceof PlayerBlockActionWithBlockInfo) return;
