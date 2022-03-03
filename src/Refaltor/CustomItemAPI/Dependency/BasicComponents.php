@@ -12,6 +12,7 @@ class BasicComponents extends Components
             ->setTag("components", CompoundTag::create()
                 ->setTag("item_properties", CompoundTag::create()
                     ->setInt("max_stack_size", $this->max_stack_size)
+                    ->setInt("creative_category", 3)
                     ->setTag("minecraft:icon", CompoundTag::create()
                         ->setString("texture", $this->texture_path)
                     )

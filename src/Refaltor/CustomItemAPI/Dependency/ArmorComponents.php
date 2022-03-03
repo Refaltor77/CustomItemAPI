@@ -20,7 +20,7 @@ class ArmorComponents extends Components
                     ->setInt("use_duration", 32)
                     ->setInt("creative_category", 3)
                     ->setString("creative_group", $this->armorGroup)
-                    ->setString("enchantable_slot", strval($this->armorSlot))
+                    ->setString("enchantable_slot", strval($this->armorSlot + 2))
                     ->setInt("enchantable_value", 10)
                     ->setTag("minecraft:icon", CompoundTag::create()
                         ->setString("texture", $this->texture_path)

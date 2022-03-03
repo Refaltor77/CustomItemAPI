@@ -15,7 +15,6 @@ class EntityListener implements Listener
         if ($damager instanceof Player) {
             $itemInHand = $damager->getInventory()->getItemInHand();
             if ($itemInHand instanceof SwordItem) {
-                $event->setAttackCooldown(18);
                 $attackCooldown = $itemInHand->getAttackCooldown();
                 $knockBack = $itemInHand->getKnockback();
                 if (!is_null($attackCooldown)) $event->setAttackCooldown($attackCooldown);
