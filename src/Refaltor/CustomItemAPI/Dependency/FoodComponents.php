@@ -20,6 +20,7 @@ class FoodComponents extends Components
                     ->setString("creative_group", "itemGroup.name.miscFood")
                     ->setTag("minecraft:icon", CompoundTag::create()
                         ->setString("texture", $this->texture_path)
+                        ->setString("legacy_id", "custom:" . strtolower($this->display_name))
                     )
                 )
                 ->setTag('minecraft:food', CompoundTag::create()

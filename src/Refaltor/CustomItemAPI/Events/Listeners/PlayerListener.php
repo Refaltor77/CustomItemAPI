@@ -44,7 +44,7 @@ class PlayerListener implements Listener
             $player->getNetworkSession()->sendDataPacket(CreativeContentPacket::create(array_map(function(Item $item) use($typeConverter, &$nextEntryId) : CreativeContentEntry{
                 return new CreativeContentEntry($nextEntryId++, $typeConverter->coreItemStackToNet($item));
             }, $player->isSpectator() ? [] : CreativeInventory::getInstance()->getAll())));
-        }), 20);
+        }), CustomItemMain::getInstance()->getUpdatingInventory());
         if (!is_null($packet)) $player->getNetworkSession()->sendDataPacket(CustomItemMain::getInstance()->packet);
     }
 

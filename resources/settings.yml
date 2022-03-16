@@ -1,0 +1,7 @@
+---
+version: '2.6.3' # /!\ DO NOT TOUCHE
+
+# ticks, When the player joins, the creative inventory put 40 ticks before integrating all customs items.
+# 40 ticks is recommended for low power servers.
+update_creative_inventory: 40
+...

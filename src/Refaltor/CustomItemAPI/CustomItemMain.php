@@ -18,6 +18,7 @@ use pocketmine\network\mcpe\protocol\types\CacheableNbt;
 use pocketmine\network\mcpe\protocol\types\ItemComponentPacketEntry;
 use pocketmine\network\mcpe\protocol\types\ItemTypeEntry;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 use Refaltor\CustomItemAPI\Events\Listeners\EntityListener;
 use Refaltor\CustomItemAPI\Events\Listeners\ItemCreationEventExample;
 use Refaltor\CustomItemAPI\Events\Listeners\PacketListener;
@@ -34,9 +35,12 @@ use Refaltor\CustomItemAPI\Items\SwordItem;
 use ReflectionClass;
 use ReflectionProperty;
 use Webmozart\PathUtil\Path;
+use const pocketmine\BEDROCK_DATA_PATH;
 
 class CustomItemMain extends PluginBase
 {
+
+    const BASE_VERSION = '2.6.3';
 
     public ?ItemComponentPacket $packet = null;
     protected array $registered = [];
@@ -47,6 +51,7 @@ class CustomItemMain extends PluginBase
     protected ReflectionProperty $itemTypeMap;
     protected array $packetEntries = [];
     protected array $itemTypeEntries = [];
+    private ?Config $settings = null;
 
     public array $items = [];
     private static ?self $instance = null;
@@ -171,9 +176,20 @@ class CustomItemMain extends PluginBase
         }
     }
 
+    public function getUpdatingInventory(): int {
+        return $this->settings->get('update_creative_inventory') ?? 40;
+    }
+
     protected function onLoad(): void
     {
         $this->saveDefaultConfig();
+        $this->saveResource('settings.yml');
+
+        $settings = new Config($this->getDataFolder() . 'settings.yml', Config::YAML);
+        if ($settings->get('version') !== self::BASE_VERSION) {
+            $this->saveResource('settings.yml', true);
+        }
+        $this->settings = $settings;
         if (is_null(self::$instance)) self::$instance = $this;
         @mkdir($this->getDataFolder() . 'debugs/');
         //@mkdir($this->getDataFolder() . 'Temps/');
@@ -228,7 +244,7 @@ class CustomItemMain extends PluginBase
         }
 
 
-        $creativeItems = json_decode(file_get_contents(Path::join(\pocketmine\BEDROCK_DATA_PATH, "creativeitems.json")), true);
+        $creativeItems = json_decode(file_get_contents(Path::join(BEDROCK_DATA_PATH, "creativeitems.json")), true);
         foreach($creativeItems as $data){
             $item = Item::jsonDeserialize($data);
             if($item->getName() === "Unknown"){

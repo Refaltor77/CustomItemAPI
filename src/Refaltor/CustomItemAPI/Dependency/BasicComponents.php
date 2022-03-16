@@ -15,6 +15,7 @@ class BasicComponents extends Components
                     ->setInt("creative_category", 3)
                     ->setTag("minecraft:icon", CompoundTag::create()
                         ->setString("texture", $this->texture_path)
+                        ->setString("legacy_id", "custom:" . strtolower($this->display_name))
                     )
                 )
                 ->setShort("minecraft:identifier", $this->id + ($this->id > 0 ? 5000 : -5000))

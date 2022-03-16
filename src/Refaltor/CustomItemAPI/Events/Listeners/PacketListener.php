@@ -155,7 +155,7 @@ class PacketListener implements Listener
                                 }
                                 if ($breakTime <= 0) $breakTime = 1;
                                 $item->onDestroyBlock($target);
-                                $this->scheduleTask(Position::fromObject($pos, $player->getWorld()), $player->getInventory()->getItemInHand(), $player, $breakTime);
+                                $this->scheduleTask(Position::fromObject($pos, $player->getWorld()), $player->getInventory()->getItemInHand(), $player, $breakTime, $player->getInventory()->getHeldItemIndex());
                                 $player->getWorld()->broadcastPacketToViewers($pos, LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int)(65535 / $breakTime), $pos->asVector3()));
                             }
                         }
@@ -184,14 +184,14 @@ class PacketListener implements Listener
         unset($this->handlers[$player->getName()]);
     }
 
-    private function scheduleTask(Position $pos, Item $item, Player $player, float $breakTime) : void{
-        $handler = $this->getPlugin()->getScheduler()->scheduleDelayedTask(new ClosureTask(function() use ($pos, $item, $player) : void{
+    private function scheduleTask(Position $pos, Item $item, Player $player, float $breakTime, int $slot) : void{
+        $handler = $this->getPlugin()->getScheduler()->scheduleDelayedTask(new ClosureTask(function() use ($pos, $item, $player, $slot) : void{
             $pos->getWorld()->useBreakOn($pos, $item, $player);
             if ($item->getDamage() + 1 >= $item->getMaxDurability()) {
-                $player->getInventory()->setItemInHand(ItemFactory::air());
+                $player->getInventory()->setItem($slot,ItemFactory::air());
             } else {
                 $item->setDamage($item->getDamage() + 1);
-                $player->getInventory()->setItemInHand($item);
+                $player->getInventory()->setItem($slot,$item);
             }
             $item->applyDamage(1);
             unset($this->handlers[$player->getName()][$this->blockHash($pos)]);

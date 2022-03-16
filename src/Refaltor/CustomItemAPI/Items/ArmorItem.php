@@ -134,6 +134,7 @@ class ArmorItem extends Armor
         $components->display_name = $this->getName();
         $components->max_stack_size = $this->getMaxStackSize();
         $components->max_durability = $this->getMaxDurability();
+        $components->armorSlot = $this->getArmorSlot();
         $components->id = $this->getId();
         $slot = match ($this->getArmorSlot()) {
             ArmorInventory::SLOT_HEAD => "itemGroup.name.helmet" ,

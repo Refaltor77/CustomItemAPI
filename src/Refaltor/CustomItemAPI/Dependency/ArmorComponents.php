@@ -24,6 +24,7 @@ class ArmorComponents extends Components
                     ->setInt("enchantable_value", 10)
                     ->setTag("minecraft:icon", CompoundTag::create()
                         ->setString("texture", $this->texture_path)
+                        ->setString("legacy_id", "custom:" . strtolower($this->display_name))
                     )
                 )
                 ->setTag("minecraft:durability", CompoundTag::create()
