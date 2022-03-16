@@ -39,11 +39,13 @@ class PlayerListener implements Listener
         $player = $event->getPlayer();
         $packet = CustomItemMain::getInstance()->packet;
         CustomItemMain::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($player): void {
-            $typeConverter = TypeConverter::getInstance();
-            $nextEntryId = 1;
-            $player->getNetworkSession()->sendDataPacket(CreativeContentPacket::create(array_map(function(Item $item) use($typeConverter, &$nextEntryId) : CreativeContentEntry{
-                return new CreativeContentEntry($nextEntryId++, $typeConverter->coreItemStackToNet($item));
-            }, $player->isSpectator() ? [] : CreativeInventory::getInstance()->getAll())));
+            if ($player->isConnected()) {
+                $typeConverter = TypeConverter::getInstance();
+                $nextEntryId = 1;
+                $player->getNetworkSession()->sendDataPacket(CreativeContentPacket::create(array_map(function(Item $item) use($typeConverter, &$nextEntryId) : CreativeContentEntry{
+                    return new CreativeContentEntry($nextEntryId++, $typeConverter->coreItemStackToNet($item));
+                }, $player->isSpectator() ? [] : CreativeInventory::getInstance()->getAll())));
+            }
         }), CustomItemMain::getInstance()->getUpdatingInventory());
         if (!is_null($packet)) $player->getNetworkSession()->sendDataPacket(CustomItemMain::getInstance()->packet);
     }
