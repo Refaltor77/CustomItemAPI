@@ -27,6 +27,7 @@ class FoodItem extends Food
     private $listenerClickAir;
     private $listenerAttackEntity;
     private $listenerConsume;
+    protected $lore;
 
     public function __construct(
         ItemIdentifier $identifier,
@@ -39,7 +40,8 @@ class FoodItem extends Food
         ?callable $listenerDestroyBlock = null,
         ?callable $listenerClickAir = null,
         ?callable $listenerAttackEntity = null,
-        ?callable $listenerConsume = null
+        ?callable $listenerConsume = null,
+        array $lore = []
     )
     {
         $this->texture_path = $texture_path;
@@ -51,6 +53,7 @@ class FoodItem extends Food
         $this->listenerClickAir = $listenerClickAir;
         $this->listenerInteract = $listenerInteract;
         $this->listenerDestroyBlock = $listenerDestroyBlock;
+        $this->lore = $lore;
         parent::__construct($identifier, $name);
     }
 

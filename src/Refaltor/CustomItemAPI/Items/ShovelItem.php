@@ -30,6 +30,7 @@ class ShovelItem extends Shovel
     private $listenerClickAir;
     private $listenerAttackEntity;
     private $listenerOnBroken;
+    protected $lore;
 
     public function __construct(
         ItemIdentifier $identifier,
@@ -42,7 +43,8 @@ class ShovelItem extends Shovel
         ?callable $listenerDestroyBlock = null,
         ?callable $listenerClickAir = null,
         ?callable $listenerAttackEntity = null,
-        ?callable $listenerOnBroken = null
+        ?callable $listenerOnBroken = null,
+        array $lore = []
     )
     {
         $this->maxDurability = $maxDurability;
@@ -53,6 +55,7 @@ class ShovelItem extends Shovel
         $this->listenerInteract = $listenerInteract;
         $this->listenerDestroyBlock = $listenerDestroyBlock;
         $this->listenerOnBroken = $listenerOnBroken;
+        $this->lore = $lore;
         parent::__construct($identifier, $name, $tier);
     }
 

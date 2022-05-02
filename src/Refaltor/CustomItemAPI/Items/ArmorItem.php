@@ -26,6 +26,7 @@ class ArmorItem extends Armor
     private $listenerClickAir;
     private $listenerAttackEntity;
     private $listenerOnBroken;
+    protected $lore;
 
     public function __construct(
         ItemIdentifier $identifier,
@@ -37,6 +38,7 @@ class ArmorItem extends Armor
         ?callable $listenerClickAir = null,
         ?callable $listenerAttackEntity = null,
         ?callable $listenerOnBroken = null,
+        array $lore = []
     )
     {
         $this->texture_path = $texturePath;
@@ -46,6 +48,7 @@ class ArmorItem extends Armor
         $this->listenerInteract = $listenerInteract;
         $this->listenerDestroyBlock = $listenerDestroyBlock;
         $this->listenerOnBroken = $listenerOnBroken;
+        $this->lore = $lore;
         parent::__construct($identifier, $name, $info);
     }
 

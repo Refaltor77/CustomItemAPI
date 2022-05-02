@@ -11,6 +11,13 @@ class ArmorComponents extends Components
     public ?int $max_durability = null;
     public ?int $defensePoints = null;
 
+    const ARMOR_ENCHANT = [
+        0 => 'armor_helmet',
+        1 => 'armor_torso',
+        2 => 'armor_legs',
+        3 => 'armor_feet'
+    ];
+
     public function serializeToNbt(): CompoundTag
     {
         return  CompoundTag::create()
@@ -20,7 +27,7 @@ class ArmorComponents extends Components
                     ->setInt("use_duration", 32)
                     ->setInt("creative_category", 3)
                     ->setString("creative_group", $this->armorGroup)
-                    ->setString("enchantable_slot", strval($this->armorSlot + 2))
+                    ->setString("enchantable_slot", self::ARMOR_ENCHANT[$this->armorSlot])
                     ->setInt("enchantable_value", 10)
                     ->setTag("minecraft:icon", CompoundTag::create()
                         ->setString("texture", $this->texture_path)

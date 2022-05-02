@@ -12,11 +12,13 @@ abstract class StructureItem extends Item
 {
     private string $texture_path;
     private int $maxStackSize;
+    protected $lore;
 
-    public function __construct(ItemIdentifier $identifier, string $name, string $texture_path = 'Unknown', int $maxStackSize = 64)
+    public function __construct(ItemIdentifier $identifier, string $name, string $texture_path = 'Unknown', int $maxStackSize = 64, array $lore = [])
     {
         $this->texture_path = $texture_path;
         $this->maxStackSize = $maxStackSize;
+        $this->lore = $lore;
         parent::__construct($identifier, $name);
     }
 

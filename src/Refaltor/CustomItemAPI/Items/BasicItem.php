@@ -20,6 +20,7 @@ class BasicItem extends StructureItem
     private $listenerDestroyBlock;
     private $listenerClickAir;
     private $listenerAttackEntity;
+    protected $lore;
 
     public function __construct
     (
@@ -30,7 +31,8 @@ class BasicItem extends StructureItem
         ?callable $listenerInteract = null,
         ?callable $listenerDestroyBlock = null,
         ?callable $listenerClickAir = null,
-        ?callable $listenerAttackEntity = null
+        ?callable $listenerAttackEntity = null,
+        array $lore = []
     )
     {
         $this->listenerAttackEntity = $listenerAttackEntity;
@@ -39,6 +41,7 @@ class BasicItem extends StructureItem
         $this->listenerDestroyBlock = $listenerDestroyBlock;
         $this->texture_path = $texture_path;
         $this->maxStackSize = $maxStackSize;
+        $this->lore = $lore;
         parent::__construct($identifier, $name);
     }
 
