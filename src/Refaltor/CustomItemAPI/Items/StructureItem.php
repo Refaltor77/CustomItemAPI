@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\item\Item;
@@ -8,7 +10,7 @@ use pocketmine\nbt\tag\CompoundTag;
 use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-abstract class StructureItem extends Item
+abstract class StructureItem extends Item implements CustomItem
 {
     private string $texture_path;
     private int $maxStackSize;
@@ -28,8 +30,6 @@ abstract class StructureItem extends Item
             (new ItemCreationEvents($this))->call();
         } else CustomItemMain::getInstance()->items[] = $this;
     }
-
-    abstract public function getComponents(): CompoundTag;
 
     public function getTexturePath(): string
     {

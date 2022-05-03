@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Dependency;
 
 use pocketmine\nbt\tag\CompoundTag;
@@ -15,7 +17,7 @@ class PickaxeComponents extends Components
             ->setTag("components", CompoundTag::create()
                 ->setTag("item_properties", CompoundTag::create()
                     ->setInt("max_stack_size", 1)
-                    ->setByte("hand_equipped", true)
+                    ->setByte("hand_equipped", 1)
                     ->setInt("damage", $this->attackPoints)
                     ->setInt("creative_category", 3)
                     ->setString("creative_group", "itemGroup.name.pickaxe")

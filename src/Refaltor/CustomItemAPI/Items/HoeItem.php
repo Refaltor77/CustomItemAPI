@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
@@ -18,7 +20,7 @@ use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\HoeComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-class HoeItem extends Hoe
+class HoeItem extends Hoe implements CustomItem
 {
     private string $texture_path;
     private int $maxStackSize = 1;

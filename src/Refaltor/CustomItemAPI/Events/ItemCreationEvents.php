@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Events;
 
 use pocketmine\event\Cancellable;
@@ -19,7 +21,7 @@ class ItemCreationEvents extends Event implements Cancellable
     use CancellableTrait;
 
     private StructureItem|ArmorItem|SwordItem|FoodItem|PickaxeItem|AxeItem|ShovelItem|HoeItem $item;
-    private string $itemRuntimeId;
+    private int $itemRuntimeId;
     private int $itemId;
     private string $itemName;
     private string $texturePath;

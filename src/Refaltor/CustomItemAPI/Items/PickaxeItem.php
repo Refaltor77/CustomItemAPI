@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
@@ -17,7 +19,7 @@ use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\PickaxeComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-class PickaxeItem extends Pickaxe
+class PickaxeItem extends Pickaxe implements CustomItem
 {
     private string $texture_path;
     private int $maxStackSize = 1;

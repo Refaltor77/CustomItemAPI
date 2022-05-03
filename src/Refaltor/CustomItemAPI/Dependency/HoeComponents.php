@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Dependency;
 
 use pocketmine\nbt\tag\CompoundTag;

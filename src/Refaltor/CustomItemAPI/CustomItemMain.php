@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI;
 
 use pocketmine\crafting\FurnaceRecipe;
@@ -32,8 +34,8 @@ use Refaltor\CustomItemAPI\Items\PickaxeItem;
 use Refaltor\CustomItemAPI\Items\ShovelItem;
 use Refaltor\CustomItemAPI\Items\StructureItem;
 use Refaltor\CustomItemAPI\Items\SwordItem;
-use ReflectionClass;
-use ReflectionProperty;
+use Refaltor\CustomItemAPI\Items\CustomItem;
+use \Closure;
 use Webmozart\PathUtil\Path;
 use const pocketmine\BEDROCK_DATA_PATH;
 
@@ -44,13 +46,7 @@ class CustomItemMain extends PluginBase
 
     public ?ItemComponentPacket $packet = null;
     protected array $registered = [];
-    protected ReflectionProperty $coreToNetMap;
-    protected ReflectionProperty $netToCoreMap;
-    protected array $coreToNetValues = [];
-    protected array $netToCoreValues = [];
-    protected ReflectionProperty $itemTypeMap;
     protected array $packetEntries = [];
-    protected array $itemTypeEntries = [];
     private ?Config $settings = null;
 
     public array $items = [];
@@ -61,67 +57,64 @@ class CustomItemMain extends PluginBase
         $array = $this->getConfig()->getAll();
         foreach ($array['items'] as $name => $values)
         {
-            switch (strtolower($values['type']))
-            {
-                case 'basic':
-                    $name = strval($values['name']);
-                    $id = intval($values['id']);
-                    $meta = intval($values['meta']);
-                    $max_stack_size = intval($values['max_stack_size']);
-                    $texture_path = strval($values['texture_path']);
-                    (new BasicItem(new ItemIdentifier($id, $meta), $name, $texture_path, $max_stack_size))->addToServer();
-                    break;
-                case 'armor':
-                    $name = strval($values['name']);
-                    $id = intval($values['id']);
-                    $meta = intval($values['meta']);
-                    $texture_path = strval($values['texture_path']);
-                    $armorGroup = strtolower(strval($values['armor_group']));
-                    $defense_points = intval($values['defense_points']);
-                    $max_durability = intval($values['max_durability']);
+            $type = strtolower($values['type']);
+            if ($type === 'basic') {
+                $name = strval($values['name']);
+                $id = intval($values['id']);
+                $meta = intval($values['meta']);
+                $max_stack_size = intval($values['max_stack_size']);
+                $texture_path = strval($values['texture_path']);
+                (new BasicItem(new ItemIdentifier($id, $meta), $name, $texture_path, $max_stack_size))->addToServer();
+            } elseif ($type === 'armor') {
+                $name = strval($values['name']);
+                $id = intval($values['id']);
+                $meta = intval($values['meta']);
+                $texture_path = strval($values['texture_path']);
+                $armorGroup = strtolower(strval($values['armor_group']));
+                $defense_points = intval($values['defense_points']);
+                $max_durability = intval($values['max_durability']);
 
-                    $item = match ($armorGroup) {
-                        'helmet' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 0), $texture_path),
-                        'chestplate' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 1), $texture_path),
-                        'leggings' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 2), $texture_path),
-                        'boots' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 3), $texture_path),
-                    };
+                $item = match ($armorGroup) {
+                    'helmet' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 0), $texture_path),
+                    'chestplate' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 1), $texture_path),
+                    'leggings' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 2), $texture_path),
+                    'boots' => new ArmorItem(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense_points, $max_durability, 3), $texture_path),
+                };
 
-                    $item->addToServer();
-                    break;
-                case 'food':
-                    $name = strval($values['name']);
-                    $id = intval($values['id']);
-                    $meta = intval($values['meta']);
-                    $max_stack_size = intval($values['max_stack_size']);
-                    $texture_path = strval($values['texture_path']);
-                    $food_restore = intval($values['food_restore']);
-                    $saturation_restore = floatval($values['saturation_restore']);
-                    (new FoodItem(new ItemIdentifier($id, $meta), $name, $food_restore, $saturation_restore, $texture_path, $max_stack_size))->addToServer();
-                    break;
-                case 'tool':
-                    $name = strval($values['name']);
-                    $id = intval($values['id']);
-                    $meta = intval($values['meta']);
-                    $texture_path = strval($values['texture_path']);
-                    $tier = match (strval($values['tier'])) {
-                        'diamond' => ToolTier::DIAMOND(),
-                        'gold' => ToolTier::GOLD(),
-                        'iron' => ToolTier::IRON(),
-                        'stone' => ToolTier::STONE(),
-                        'wood' => ToolTier::WOOD()
-                    };
+                $item->addToServer();
+            } elseif($type === 'food') {
+                $name = strval($values['name']);
+                $id = intval($values['id']);
+                $meta = intval($values['meta']);
+                $max_stack_size = intval($values['max_stack_size']);
+                $texture_path = strval($values['texture_path']);
+                $food_restore = intval($values['food_restore']);
+                $saturation_restore = floatval($values['saturation_restore']);
+                (new FoodItem(new ItemIdentifier($id, $meta), $name, $food_restore, $saturation_restore, $texture_path, $max_stack_size))->addToServer();
+            } elseif($type === 'tool') {
+                $name = strval($values['name']);
+                $id = intval($values['id']);
+                $meta = intval($values['meta']);
+                $texture_path = strval($values['texture_path']);
+                $tier = match (strval($values['tier'])) {
+                    'diamond' => ToolTier::DIAMOND(),
+                    'gold' => ToolTier::GOLD(),
+                    'iron' => ToolTier::IRON(),
+                    'stone' => ToolTier::STONE(),
+                    'wood' => ToolTier::WOOD()
+                };
 
-                    $item = match (strtolower(strval($values['tool_group']))) {
-                        'pickaxe' => new PickaxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']), intval($values['max_durability']), $texture_path),
-                        'sword' => new SwordItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), intval($values['attack_points']), $texture_path),
-                        'axe' => new AxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']),$values['max_durability'], $texture_path),
-                        'shovel' => new ShovelItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), floatval($values['mining_efficiency']),$texture_path),
-                        'hoe' => new HoeItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), $texture_path),
-                    };
+                $item = match (strtolower(strval($values['tool_group']))) {
+                    'pickaxe' => new PickaxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']), intval($values['max_durability']), $texture_path),
+                    'sword' => new SwordItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), intval($values['attack_points']), $texture_path),
+                    'axe' => new AxeItem(new ItemIdentifier($id, $meta), $name, $tier, floatval($values['mining_efficiency']),$values['max_durability'], $texture_path),
+                    'shovel' => new ShovelItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), floatval($values['mining_efficiency']),$texture_path),
+                    'hoe' => new HoeItem(new ItemIdentifier($id, $meta), $name, $tier, intval($values['max_durability']), $texture_path),
+                };
 
-                    $item->addToServer();
-                    break;
+                $item->addToServer();
+            } else {
+                //NOPE
             }
         }
     }
@@ -158,7 +151,7 @@ class CustomItemMain extends PluginBase
         return new HoeItem($identifier, $name, $tier, $maxDurability, $texture_path);
     }
 
-    public function register($item) {
+    public function register(CustomItem $item) {
         try {
             $item->addToServer();
         } catch (\Exception $exception) {
@@ -199,49 +192,59 @@ class CustomItemMain extends PluginBase
 
     protected function onEnable(): void
     {
-        foreach ([new PacketListener($this), new PlayerListener(), new ItemCreationEventExample($this), new EntityListener()] as $event) $this->getServer()->getPluginManager()->registerEvents($event, $this);
-        $ref = new ReflectionClass(ItemTranslator::class);
-        $this->coreToNetMap = $ref->getProperty("simpleCoreToNetMapping");
-        $this->netToCoreMap = $ref->getProperty("simpleNetToCoreMapping");
-        $this->coreToNetMap->setAccessible(true);
-        $this->netToCoreMap->setAccessible(true);
-        $this->coreToNetValues = $this->coreToNetMap->getValue(ItemTranslator::getInstance());
-        $this->netToCoreValues = $this->netToCoreMap->getValue(ItemTranslator::getInstance());
-        $ref_1 = new ReflectionClass(ItemTypeDictionary::class);
-        $this->itemTypeMap = $ref_1->getProperty("itemTypes");
-        $this->itemTypeMap->setAccessible(true);
-        $this->itemTypeEntries = $this->itemTypeMap->getValue(GlobalItemTypeDictionary::getInstance()->getDictionary());
+        foreach ([new PacketListener($this), new PlayerListener(), new ItemCreationEventExample($this), new EntityListener()] as $event)
+        {
+            $this->getServer()->getPluginManager()->registerEvents($event, $this);
+        }
         $this->packetEntries = [];
         $items = $this->getItemsInCache();
         CreativeInventory::getInstance()->clear();
 
+        $translator = ItemTranslator::getInstance();
+        $typeDictionary = GlobalItemTypeDictionary::getInstance()->getDictionary();
         foreach ($items as $item) {
-            if (
-                $item instanceof StructureItem
-                || $item instanceof ArmorItem
-                || $item instanceof FoodItem
-                || $item instanceof SwordItem
-                || $item instanceof PickaxeItem
-                || $item instanceof AxeItem
-                || $item instanceof ShovelItem
-                || $item instanceof HoeItem
-            ) {
-                $runtimeId = $item->getId() + ($item->getId() > 0 ? 5000 : -5000);
-                $this->coreToNetValues[$item->getId()] = $runtimeId;
-                $this->netToCoreValues[$runtimeId] = $item->getId();
-                $this->itemTypeEntries[] = new ItemTypeEntry("custom:" . $item->getName(), $runtimeId, true);
-                $this->packetEntries[] = new ItemComponentPacketEntry("custom:" . $item->getName(), new CacheableNbt($item->getComponents()));;
+            if ($item instanceof CustomItem && $item instanceof Item) {
+                $legacyId = $item->getId();
+                $legacyMeta = $item->getMeta();
+                $runtimeId = $legacyId + ($legacyId > 0 ? 5000 : -5000);
+                $name = $item->getName();
+                $stringId = 'custom:' . $name;
+                
+                $this->packetEntries[] = new ItemComponentPacketEntry($stringId, new CacheableNbt($item->getComponents()));;
                 $this->registered[] = $item;
                 $new = clone $item;
-                StringToItemParser::getInstance()->register($item->getName(), fn() => $new);
+                StringToItemParser::getInstance()->register($name, fn() => $new);
                 ItemFactory::getInstance()->register($item, true);
                 CreativeInventory::getInstance()->add($item);
-                $this->netToCoreMap->setValue(ItemTranslator::getInstance(), $this->netToCoreValues);
-                $this->coreToNetMap->setValue(ItemTranslator::getInstance(), $this->coreToNetValues);
-                $this->itemTypeMap->setValue(GlobalItemTypeDictionary::getInstance()->getDictionary(), $this->itemTypeEntries);
-                $this->packet = ItemComponentPacket::create($this->packetEntries);
+
+                Closure::bind( //HACK: Closure bind hack to access inaccessible members
+                    static function(ItemTranslator $translator) use ($runtimeId, $legacyId, $legacyMeta): void
+                    {
+                        if($legacyMeta === -1) {
+                            $translator->simpleCoreToNetMapping[$legacyId] = $runtimeId;
+                            $translator->simpleNetToCoreMapping[$runtimeId] = $legacyId;
+                        } else {
+                            $translator->complexCoreToNetMapping[$legacyId][$legacyMeta] = $runtimeId;
+                            $translator->complexNetToCoreMapping[$runtimeId] = [$legacyId, $legacyMeta];
+                        }
+                    },
+                    null,
+                    ItemTranslator::class
+                )($translator);
+
+                Closure::bind( //HACK: Closure bind hack to access inaccessible members
+                    static function(ItemTypeDictionary $dictionary) use ($stringId, $runtimeId): void
+                    {
+                        $dictionary->itemTypes[] = new ItemTypeEntry($stringId, $runtimeId, true);
+                        $dictionary->stringToIntMap[$stringId] = $runtimeId;
+                        $dictionary->intToStringIdMap[$runtimeId] = $stringId;
+                    },
+                    null,
+                    ItemTypeDictionary::class
+                )($typeDictionary);
             }
         }
+        $this->packet = ItemComponentPacket::create($this->packetEntries);
 
 
         $creativeItems = json_decode(file_get_contents(Path::join(BEDROCK_DATA_PATH, "creativeitems.json")), true);
