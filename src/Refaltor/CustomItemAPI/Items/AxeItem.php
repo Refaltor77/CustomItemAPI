@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
@@ -17,7 +19,7 @@ use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\AxeComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-class AxeItem extends Axe
+class AxeItem extends Axe implements CustomItem
 {
     private string $texture_path;
     private int $maxStackSize = 1;

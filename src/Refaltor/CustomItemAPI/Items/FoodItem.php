@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
@@ -15,7 +17,7 @@ use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\FoodComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-class FoodItem extends Food
+class FoodItem extends Food implements CustomItem
 {
     private string $texture_path;
     private int $maxStackSize;

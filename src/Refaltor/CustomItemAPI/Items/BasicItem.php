@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Refaltor\CustomItemAPI\Items;
 
 use pocketmine\block\Block;
@@ -16,7 +18,7 @@ use Refaltor\CustomItemAPI\CustomItemMain;
 use Refaltor\CustomItemAPI\Dependency\ArmorComponents;
 use Refaltor\CustomItemAPI\Events\ItemCreationEvents;
 
-class ArmorItem extends Armor
+class ArmorItem extends Armor implements CustomItem
 {
     private string $texture_path;
     private int $max_durability;
