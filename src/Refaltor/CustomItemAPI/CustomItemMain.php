@@ -192,7 +192,6 @@ class CustomItemMain extends PluginBase
 
     protected function onEnable(): void
     {
-        $t = microtime(true);
         foreach ([new PacketListener($this), new PlayerListener(), new ItemCreationEventExample($this), new EntityListener()] as $event)
         {
             $this->getServer()->getPluginManager()->registerEvents($event, $this);
@@ -256,7 +255,6 @@ class CustomItemMain extends PluginBase
             }
             CreativeInventory::getInstance()->add($item);
         }
-        echo(microtime(true)-$t . "sec\n");
     }
 
     public static function getInstance(): self
