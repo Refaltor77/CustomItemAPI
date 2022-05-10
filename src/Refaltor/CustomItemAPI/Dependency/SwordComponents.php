@@ -17,7 +17,7 @@ class SwordComponents extends Components
             ->setTag("components", CompoundTag::create()
                 ->setTag("item_properties", CompoundTag::create()
                     ->setInt("max_stack_size", $this->max_stack_size)
-                    ->setByte("hand_equipped", true)
+                    ->setByte("hand_equipped", 1)
                     ->setInt("damage", $this->attackPoints)
                     ->setInt("creative_category", 3)
                     ->setString("creative_group", "itemGroup.name.sword")
