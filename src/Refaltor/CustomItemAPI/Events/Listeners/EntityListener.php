@@ -13,7 +13,6 @@ class EntityListener implements Listener
 {
     public function onDamage(EntityDamageByEntityEvent $event): void {
         $damager = $event->getDamager();
-        $event->setAttackCooldown(7.5);
         if ($damager instanceof Player) {
             $itemInHand = $damager->getInventory()->getItemInHand();
             if ($itemInHand instanceof SwordItem) {
