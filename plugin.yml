@@ -1,6 +1,6 @@
 name: CustomItemAPI
-version: 2.7.0
-main: Refaltor\CustomItemAPI\CustomItemMain
-author: Refaltor
+version: 3.0.0
+author: refaltor
+main: refaltor\customitemapi\CustomItemAPI
 api: 4.0.0
-load: STARTUP
+description: Plugin that adds new items
