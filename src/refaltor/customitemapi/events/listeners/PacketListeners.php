@@ -121,14 +121,7 @@ class PacketListeners implements Listener
             }
         }
     }
-
-    private const OVERRIDDEN_EXPERIMENTS = [
-        "scripting" => true, // Additional Modding Capabilities
-        "upcoming_creator_features" => true, // Upcoming Creator Features
-        "gametest" => true, // Enable GameTest Framework
-        "data_driven_items" => true, // Holiday Creator Features
-        "experimental_molang_features" => true, // Experimental Molang Features
-    ];
+    
     protected array $handlers = [];
 
 
