@@ -46,8 +46,6 @@ class PlayerListeners implements  Listener
         $player = $event->getPlayer();
         $network = $player->getNetworkSession();
         $network->sendDataPacket($this->getPlugin()->getAPI()->getPacket());
-        $player->getWorld()->dropItem($player->getEyePos(), ItemFactory::getInstance()->get(1000, 0));
-        $player->getWorld()->dropItem($player->getEyePos(), ItemFactory::getInstance()->get(1001, 0));
     }
 
     public function onFood(PlayerItemConsumeEvent $event): void {
