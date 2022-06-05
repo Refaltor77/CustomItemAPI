@@ -1,9 +1,0 @@
-{
-    "resource_pack_name": "vanilla",
-    "texture_name": "atlas.items",
-    "texture_data": {
-        "item_test": {
-            "textures": "textures/items/item_test"
-        }
-    }
-}

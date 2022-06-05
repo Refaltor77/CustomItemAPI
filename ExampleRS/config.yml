@@ -1,8 +1,0 @@
-items:
-  test_item:
-    type: basic
-    name: item test
-    id: 1000
-    meta: 0
-    max_stack_size: 2
-    texture_path: item_test
