@@ -228,8 +228,8 @@ trait UtilsTrait
                 $slot = match (strtolower($values['type'])) {
                     'helmet' => ArmorInventory::SLOT_HEAD,
                     'chestplate' => ArmorInventory::SLOT_CHEST,
-                    'leggings' => ArmorInventory::SLOT_FEET,
-                    'boots' => ArmorInventory::SLOT_LEGS,
+                    'leggings' => ArmorInventory::SLOT_LEGS,
+                    'boots' => ArmorInventory::SLOT_FEET,
                 };
                 $item = new CustomArmor(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense, $durability, $slot), $texture_path);
                 $arrayQueried[] = $item;
