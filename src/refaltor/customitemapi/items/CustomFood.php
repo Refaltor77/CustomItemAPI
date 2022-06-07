@@ -101,9 +101,7 @@ class CustomFood extends Food
                     )
                 )
                 ->setTag('minecraft:food', CompoundTag::create()
-                    ->setFloat('nutrition', floatval($this->getFoodRestore()))
-                    ->setString('saturation_modifier', 'low')
-                    ->setByte('can_always_eat', $this->canAlwaysEat() ? 1 : 0)
+                    // for hack microsoft is empty xd
                 )
                 ->setShort("minecraft:identifier", $this->getRuntimeId($this->getId()))
                 ->setTag("minecraft:display_name", CompoundTag::create()
