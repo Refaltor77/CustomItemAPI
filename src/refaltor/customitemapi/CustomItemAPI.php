@@ -19,6 +19,7 @@
  *   Discord: Refaltor#6969
  */
 
+
 declare(strict_types=1);
 
 namespace refaltor\customitemapi;
