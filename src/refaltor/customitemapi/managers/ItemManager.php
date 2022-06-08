@@ -139,7 +139,7 @@ class ItemManager
         }
     }
 
-    public function getPacket(): ItemComponentPacket {
+    public function getPacket(): ?ItemComponentPacket {
         return $this->packet;
     }
 

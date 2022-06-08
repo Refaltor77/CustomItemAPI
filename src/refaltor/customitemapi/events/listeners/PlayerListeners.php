@@ -45,7 +45,8 @@ class PlayerListeners implements  Listener
     public function onJoin(PlayerJoinEvent $event): void {
         $player = $event->getPlayer();
         $network = $player->getNetworkSession();
-        $network->sendDataPacket($this->getPlugin()->getAPI()->getPacket());
+        $packet = $this->getPlugin()->getAPI()->getPacket();
+        if (!is_null($packet)) $network->sendDataPacket($this->getPlugin()->getAPI()->getPacket()); // patch crash
     }
 
     public function onFood(PlayerItemConsumeEvent $event): void {
