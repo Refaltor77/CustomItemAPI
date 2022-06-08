@@ -59,7 +59,7 @@ class BaseItem extends Item
                 ->setInt("use_animation", 0)
                 ->setByte("allow_off_hand", $this->allowOffHand() ? 1 : 0)
                 ->setByte("can_destroy_in_creative", 0)
-                ->setByte("creative_category", 3)
+                ->setInt("creative_category", 3)
                 ->setByte("hand_equipped", $this->getHandEquipped() ? 1 : 0)
                 ->setInt("max_stack_size", $this->getMaxStackSize())
                 ->setFloat("mining_speed", 1)

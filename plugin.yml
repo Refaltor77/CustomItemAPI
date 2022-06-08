@@ -1,5 +1,5 @@
 name: CustomItemAPI
-version: 3.2.0
+version: 3.2.1
 author: refaltor
 main: refaltor\customitemapi\CustomItemAPI
 api: 4.0.0

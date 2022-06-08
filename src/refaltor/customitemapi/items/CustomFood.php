@@ -93,7 +93,7 @@ class CustomFood extends Food
                     ->setInt("use_duration", 32)
                     ->setInt("use_animation", 1)
                     ->setByte('can_destroy_in_creative', 1)
-                    ->setByte("creative_category", 3)
+                    ->setInt("creative_category", 3)
                     ->setString("creative_group", "itemGroup.name.miscFood")
                     ->setTag("minecraft:icon", CompoundTag::create()
                         ->setString("texture", $this->getTextureName())
