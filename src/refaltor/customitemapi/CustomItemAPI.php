@@ -51,6 +51,7 @@ class CustomItemAPI extends PluginBase
     use DevUtils;
 
     private ItemManager $manager;
+    private static self $instance;
 
     protected function onLoad(): void
     {
@@ -58,6 +59,7 @@ class CustomItemAPI extends PluginBase
         $this->saveDefaultConfig();
         $this->manager = new ItemManager($this);
         $this->loadConfigurationFiles();
+        self::$instance = $this;
     }
 
     protected function onEnable(): void
@@ -73,6 +75,8 @@ class CustomItemAPI extends PluginBase
     {
         $this->getServer()->getLogger()->debug("[CustomItemAPI] Logs //: CustomItemAPI has disable.");
     }
+
+    public static function getInstance(): self { return self::$instance; }
 
     public function getAPI(): ItemManager {
         return $this->manager;
