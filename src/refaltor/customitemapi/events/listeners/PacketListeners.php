@@ -241,7 +241,9 @@ class PacketListeners implements Listener
                 $item->setDamage($item->getDamage() + 1);
                 $player->getInventory()->setItem($slot, $item);
             }
-            $player->getWorld()->broadcastPacketToViewers($pos, LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int)(65535 / $breakTime), $pos->asVector3()));
+            if ($breakTime > 0) {
+                $player->getWorld()->broadcastPacketToViewers($pos, LevelEventPacket::create(LevelEvent::BLOCK_START_BREAK, (int)(65535 / $breakTime), $pos->asVector3()));
+            }
             $item->applyDamage(1);
             unset($this->handlers[$player->getName()][$this->blockHash($pos)]);
         }), (int)floor($breakTime));

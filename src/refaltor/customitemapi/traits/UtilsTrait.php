@@ -58,7 +58,6 @@ trait UtilsTrait
 
     public function loadConfigurationFiles(): void {
         $this->getServer()->getLogger()->debug("[CustomItemAPI] Logs //: parsing configuration files...");
-        $arrayQueried = [];
         $config = $this->getConfig()->getAll();
         if (isset($config['basic_items'])) {
             foreach ($config['basic_items'] as $name => $values) {
@@ -78,7 +77,7 @@ trait UtilsTrait
                 $max_stack_size = $values['max_stack_size'] ?? 64;
                 $allow_off_hand = $values['allow_off_hand'] ?? false;
                 $item = new BaseItem(new ItemIdentifier($id, $meta), $name, $texture_path, $max_stack_size, $allow_off_hand);
-                $arrayQueried[] = $item;
+                $this->getAPI()->register($item);
             }
         }
         if (isset($config['food_items'])) {
@@ -114,7 +113,7 @@ trait UtilsTrait
                 if ($is_potion) {
                     $item = new CustomPotion(new ItemIdentifier($id, $meta), $name, $texture_path, $can_always_eat, $food_restore, $saturation_restore, $max_stack_size);
                 } else $item = new CustomFood(new ItemIdentifier($id, $meta), $name, $texture_path, $can_always_eat, $food_restore, $saturation_restore, $max_stack_size);
-                $arrayQueried[] = $item;
+                $this->getAPI()->register($item);
             }
         }
         if (isset($config['tool_items'])) {
@@ -184,7 +183,7 @@ trait UtilsTrait
                     'hoe' => new CustomHoe(new ItemIdentifier($id, $meta), $name, $tier, $texture_path, $durability, $attack_point),
                     'sword' => new CustomSword(new ItemIdentifier($id, $meta), $name, $tier, $texture_path, $durability, $attack_point),
                 };
-                $arrayQueried[] = $item;
+                $this->getAPI()->register($item);
             }
         }
         if (isset($config['armor_items'])) {
@@ -232,10 +231,9 @@ trait UtilsTrait
                     'boots' => ArmorInventory::SLOT_FEET,
                 };
                 $item = new CustomArmor(new ItemIdentifier($id, $meta), $name, new ArmorTypeInfo($defense, $durability, $slot), $texture_path);
-                $arrayQueried[] = $item;
+                $this->getAPI()->register($item);
             }
         }
-        $this->getAPI()->registerAll($arrayQueried);
         $this->getServer()->getLogger()->debug("[CustomItemAPI] Logs //: configuration files is loaded.");
     }
 }

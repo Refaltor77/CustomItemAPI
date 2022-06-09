@@ -71,7 +71,7 @@ class CustomItemAPI extends PluginBase
         $version = $this->getDescription()->getVersion();
         $versionNow = $this->getConfig()->get('version', '1.0.0');
         if ($version !== $versionNow) {
-            $this->getServer()->getLogger()->error("[CustomItemAPI] Error //: CustomItemAPI has outdated, 3.2.0 is now");
+            $this->getServer()->getLogger()->error("[CustomItemAPI] Error //: CustomItemAPI has outdated, 3.2.3 is now");
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
         $this->getServer()->getLogger()->debug("[CustomItemAPI] Logs //: CustomItemAPI has started.");
