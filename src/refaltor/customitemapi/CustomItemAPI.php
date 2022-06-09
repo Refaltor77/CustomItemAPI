@@ -47,6 +47,8 @@ use refaltor\customitemapi\traits\UtilsTrait;
 
 class CustomItemAPI extends PluginBase
 {
+    const LAST_VERSION = "3.2.3";
+
     use UtilsTrait;
     use DevUtils;
 
@@ -71,8 +73,20 @@ class CustomItemAPI extends PluginBase
         $version = $this->getDescription()->getVersion();
         $versionNow = $this->getConfig()->get('version', '1.0.0');
         if ($version !== $versionNow) {
-            $this->getServer()->getLogger()->error("[CustomItemAPI] Error //: CustomItemAPI has outdated, 3.2.3 is now");
-            $this->getServer()->getPluginManager()->disablePlugin($this);
+            if ($versionNow !== self::LAST_VERSION) {
+                $this->getServer()->getLogger()->error("[CustomItemAPI] Error //: CustomItemAPI has outdated, 3.2.3 is now");
+                $this->getServer()->getPluginManager()->disablePlugin($this);
+            } else {
+                $configAll = $this->getConfig()->getAll();
+                rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'last_config.yml');
+                $this->saveDefaultConfig();
+                if (isset($configAll['version'])) {
+                    $configAll['version'] = '3.2.3';
+                    $this->getConfig()->setAll($configAll);
+                    $this->getConfig()->save();
+                }
+                $this->getServer()->getLogger()->error("[CustomItemAPI] Update Auto //: CustomItemAPI config.yml has update.");
+            }
         }
         $this->getServer()->getLogger()->debug("[CustomItemAPI] Logs //: CustomItemAPI has started.");
     }
