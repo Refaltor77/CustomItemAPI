@@ -70,21 +70,6 @@ class CustomItemAPI extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new PacketListeners($this), $this);
 
         $this->getAPI()->start();
-        $version = $this->getDescription()->getVersion();
-        $versionNow = $this->getConfig()->get('version');
-        if ((string)$version != (string)$versionNow) {
-            if ((string)$versionNow != (string)self::LAST_VERSION) {
-                $configAll = $this->getConfig()->getAll();
-                rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'last_config.yml');
-                $this->saveDefaultConfig();
-                if (isset($configAll['version'])) {
-                    $configAll['version'] = '3.2.3';
-                    $this->getConfig()->setAll($configAll);
-                    $this->getConfig()->save();
-                }
-                $this->getServer()->getLogger()->error("[CustomItemAPI] Update Auto //: CustomItemAPI config.yml has update.");
-            }
-        }
         $this->getServer()->getLogger()->debug("[CustomItemAPI] Logs //: CustomItemAPI has started.");
     }
 

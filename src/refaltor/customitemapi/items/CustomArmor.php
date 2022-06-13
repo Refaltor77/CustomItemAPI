@@ -52,6 +52,14 @@ class CustomArmor extends Armor
         "netherite"
     ];
 
+
+    const ARMOR_ENCHANT = [
+        0 => 'armor_helmet',
+        1 => 'armor_torso',
+        2 => 'armor_legs',
+        3 => 'armor_feet'
+    ];
+
     const ARMOR_GROUP = [
         0 => 'itemGroup.name.helmet',
         1 => 'itemGroup.name.chestplate',
@@ -119,8 +127,8 @@ class CustomArmor extends Armor
                     ->setInt("use_duration", 32)
                     ->setByte('can_destroy_in_creative', 0)
                     ->setInt("use_animation", 0)
-                    ->setString("enchantable_slot", "axe")
-                    ->setInt("enchantable_value", 10)
+                    ->setString("enchantable_slot", self::ARMOR_ENCHANT[$this->getArmorSlot()])
+                    ->setInt("enchantable_value", 18)
                     ->setByte("creative_category", 3)
                     ->setInt("max_stack_size", 1)
                     ->setInt("creative_category", 3)
