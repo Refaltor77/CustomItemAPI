@@ -28,7 +28,7 @@ use refaltor\customitemapi\items\BaseItem;
 
 
 $item = new BaseItem(new ItemIdentifier(1000, 0), 'test', 'test_texture', 64, false);
-CustomItemAPI::getInstance()->getAPI()->register($item); # the item is set to hold fill and will be register when onEnable().
+CustomItemAPI::getInstance()->getAPI()->register($item); # the item is set to hold fill and will be register when onLoad().
 ```
 
 ## Armor Creation
