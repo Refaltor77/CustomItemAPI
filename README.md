@@ -1,4 +1,4 @@
-# Welcome to CustomItemAPI
+# Welcome to CustomItemAPI (planned update !)
 
 > the Plugin allows you to add as many items as you want
 > on your server, you can add new foods, 
