@@ -1,0 +1,58 @@
+# CustomItemAPI configuration v1.0.0.
+# CustomItemAPI is a plugin that allows
+# to add items to your server with Customies plugin (very good plugin but is not for the user basic).
+# The plugin supports:
+# ------------------
+# - CustomFood
+# - CustomPotion (animation)
+# - CustomArmor
+# - CustomPickaxe
+# - CustomShovel
+# - CustomHoe
+# - CustomAxe
+# - CustomSword
+# ------------------
+# For all requests for assistance
+# Discord: Refaltor#6969
+# github: https://github.com/refaltor77
+
+
+
+basic_items:
+  example_basic_item: # This name is used only if the "name" value does not exist.
+    name: test # never use space in your item names | required.
+    texture_path: stick # texture present only in the textures/items folder of your pack | required
+    max_stack_size: 16 # optional | default is 64
+    allow_off_hand: false # optional | default is false
+    render_offest: 16 # 32 / 64 / 128 etc...
+
+food_items:
+  example_food_item:
+    name: test_food # Always use "_" for spaces.
+    is_potion: false # if true, The animation of eating will be like a potion. | optional default is false
+    texture_path: apple # required
+    max_stack_size: 32 # optional | default is 64
+    can_always_eat: true # This allows you to always eat the item even if the player is not hungry | optional default is false
+    food_restore: 4 # use only integer numbers for this value. | required
+    saturation_restore: 15.0 # use only float numbers for this value. | required
+    render_offest: 16 # 32 / 64 / 128 etc...
+
+tool_items:
+  example_tool:
+    name: test_pickaxe
+    type: pickaxe # pickaxe | axe | shovel | sword | hoe - required
+    tier: diamond # diamond | golden | iron | stone | wooden - required
+    texture_path: apple # required
+    mining_speed: 3.0 # use only float numbers for this value. | required
+    durability: 100 # required
+    attack_point: 2 # required
+    render_offest: 16 # 32 / 64 / 128 etc...
+
+armor_items:
+  example_helmet:
+    name: test_helmet
+    type: helmet # helmet | chestplate | leggings | boots - required
+    texture_path: iron_helmet
+    defense_points: 5 # required
+    durability: 500 # required
+    render_offest: 16 # 32 / 64 / 128 etc...

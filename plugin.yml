@@ -1,6 +1,16 @@
-name: CustomItemAPI
-version: 3.3.0
-author: refaltor
-main: refaltor\customitemapi\CustomItemAPI
+name: Customies
+description: CustomItemAPI
+
+main: customiesdevs\customies\Customies
+src-namespace-prefix: customiesdevs\customies
+version: 1.2.1
 api: 4.0.0
-description: Plugin that adds new items
+
+authors:
+  - DenielWorld
+  - TwistedAsylumMC
+  - Refaltor # only for the CustomItemAPI
+contributors:
+  - JackNoordhuis
+  - Unickorn
+  - abimek
