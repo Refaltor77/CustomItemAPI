@@ -23,7 +23,7 @@ class BasicItem extends Item implements ItemComponents {
         $inventory = CreativeInventoryInfo::DEFAULT();
         $this->initComponent($texture, $inventory);
         $this->addComponent(new AllowOffHandComponent($allowOffHand));
-        $this->addComponent(new RenderOffsetsComponent($renderOffset, $renderOffset, true));
+        $this->addComponent(new RenderOffsetsComponent($renderOffset, $renderOffset, false));
 
     }
 

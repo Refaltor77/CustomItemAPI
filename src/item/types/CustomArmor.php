@@ -53,7 +53,7 @@ class CustomArmor extends Armor implements ItemComponents
         $this->addComponent(new ArmorComponent($this->getDefensePoints(), "diamond"));
         $this->addComponent(new DurabilityComponent($this->getMaxDurability()));
         $this->addComponent(new WearableComponent($wearable ?? WearableComponent::SLOT_ARMOR));
-        $this->addComponent(new RenderOffsetsComponent($renderOffset, $renderOffset, true));
+        $this->addComponent(new RenderOffsetsComponent($renderOffset, $renderOffset, false));
 
     }
 }

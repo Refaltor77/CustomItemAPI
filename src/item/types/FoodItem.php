@@ -35,7 +35,7 @@ class FoodItem extends Food implements ItemComponents
         $this->addComponent(new FoodComponent($canAlwaysEat));
         $this->addComponent(new UseDurationComponent(32));
         $this->addComponent(new UseAnimationComponent($isPotion ? UseAnimationComponent::ANIMATION_DRINK : UseAnimationComponent::ANIMATION_EAT));
-        $this->addComponent(new RenderOffsetsComponent($renderOffset, $renderOffset, true));
+        $this->addComponent(new RenderOffsetsComponent($renderOffset, $renderOffset, false));
     }
 
     public function getFoodRestore(): int
