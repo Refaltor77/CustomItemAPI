@@ -7,6 +7,11 @@
 > not having the necessary development skills. !!!
 
 
+## features
+- Add block config system
+- Add entitie config system
+- Add json config for complexe item (ex: item execute /feed)
+
 ````YAML
 # CustomItemAPI configuration v1.0.0.
 # CustomItemAPI is a plugin that allows
